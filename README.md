@@ -24,7 +24,7 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
 
 ## Version History and Change Log ##
 
-[x] Version 1.5 - 05.March.2015
+[x] Version 1.5 - 15.March.2016
  
 * Added
  * Windows 8 and 8.1 OS support for script runtime environment
