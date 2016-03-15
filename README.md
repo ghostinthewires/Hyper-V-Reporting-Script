@@ -20,3 +20,19 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
 * Can be used directly from command-line or as a scheduled Windows task.
 * Supports report delivery via e-mail with advanced options. (authentication, TLS/SSL, multiple recipients)
 * Advanced error handling and logging. (Console messages and log file) 
+
+
+## Version History and Change Log ##
+
+* Version 1.5 - 05.March.2015
+ * Added
+   · Windows 8 and 8.1 OS support for script runtime environment
+   · New Cluster Overview section
+   · Storage Overcommitment
+   · Supports for Extended Replica reporting
+   · Hyper-V host information extended
+   · VM Virtual Network information
+   · $ReportFileNameTimeStamp parameter
+   
+ * Removed
+   · $ReportIsBodyHTML parameter is no longer available
