@@ -37,3 +37,22 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
    
 * Removed
  * $ReportIsBodyHTML parameter is no longer available
+ 
+## Report Details ##
+ 
+_Cluster Overview_ (Applicable on clusters only)
+
+* Physical Resources
+ * Node
+ * Processor
+ * Memory
+ * Storage
+ 
+* Physical Resources
+ * vMachine
+ * vProcessor
+ * vMemory
+ * vStorage
+ 
+
+ ![](Images/get-hypervreport-cluster-overview.png?raw=true)
