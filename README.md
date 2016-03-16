@@ -177,3 +177,27 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
 * Hyper-V PowerShell (if not, automatically installed by the Get-HyperVReport.ps1 for server oses)
 * Failover Clustering PowerShell (if not, automatically installed by the Get-HyperVReport.ps1 for server os')
 * The script requires administrative privileges on the target Hyper-V server(s)
+
+
+## Usage ##
+
+**1) Creates a Hyper-V Cluster report in the working directory.**
+
+.\Get-HyperVReport.ps1 -Cluster Hvcluster1
+
+**2) Creates a Hyper-V Cluster report that shown only highlighted events and alerts in the working directory.**
+
+.\Get-HyperVReport.ps1 -Cluster Hvcluster1 -HighlightsOnly $true
+
+**3) Creates one or more standalone Hyper-V Host(s) report in the working directory.**
+
+.\Get-HyperVReport.ps1 -VMHost Host1,Host2,Host3
+
+**4) Creates a Hyper-V Cluster report and sends it to multiple recipients as attachment without smtp authentication.**
+
+.\Get-HyperVReport.ps1 -Cluster Hvcluster1 -SendMail $true -SMTPServer 10.29.0.50 -MailFrom sender@hyperv.com -MailTo recepient1@hyperv.com,recepient2@hyperv.com
+
+**5) Creates a Hyper-V Cluster report and sends it to multiple recipients as attachment with smtp authentication and TLS/SSL communication. -SMTPServerTLSorSSL is optional and used if forced by the smtp server.**
+
+.\Get-HyperVReport.ps1 -Cluster Hvcluster1 -SendMail $true -SMTPServer smtp.mailserver.com -SMTPPort 587 -MailFrom sender@hyperv.com -MailFromPassword P@ssw0rd -SMTPServerTLSorSSL $true -MailTo recepient1@hyperv.com,recepient2@hyperv.com
+
