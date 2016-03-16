@@ -201,3 +201,8 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
 
 .\Get-HyperVReport.ps1 -Cluster Hvcluster1 -SendMail $true -SMTPServer smtp.mailserver.com -SMTPPort 587 -MailFrom sender@hyperv.com -MailFromPassword P@ssw0rd -SMTPServerTLSorSSL $true -MailTo recepient1@hyperv.com,recepient2@hyperv.com
 
+
+###### Special Thanks ######
+
+_Serhat Akinci_
+
