@@ -3,7 +3,7 @@
 It can be difficult to monitor and assess resources in large Hyper-V environments. This Powershell based script helps you to understand virtualization inventory, capacity and general resource availability in your Standalone or Clustered Hyper-V Environment.
 
 
-![](Images/get-hypervreport-ps.png?raw=true)
+ ![](Images/get-hypervreport-ps.png?raw=true)
 
 
 ## Highlights ##
@@ -56,3 +56,26 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
  
 
  ![](Images/get-hypervreport-cluster-overview.PNG?raw=true)
+ 
+ 
+**Hyper-V Host Table** (Clustered or Standalone)
+
+* Hostname
+ * Computer Manufacturer, Model
+* Operating System Version
+* State
+* Uptime
+* Domain Name
+* Total and Running VM Count
+ * Detailed as Clustered and Non-clustered
+* Processor Count
+ * Logical processor count
+ * Physical processor socket count
+ * Processor Manufacturer, Model, Ghz
+ * Hyper-Threading state for Intel processor (shown as tooltip)
+ * Virtual Processors per Logical Processor ratio 
+* Physical RAM capacity
+ * Used, Free, Total
+
+
+ ![](Images/get-hypervreport-cluster-nodes.png?raw=true)
