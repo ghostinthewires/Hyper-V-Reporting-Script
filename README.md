@@ -40,7 +40,7 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
  
 ## Report Details ##
  
-_Cluster Overview_ (Applicable on clusters only)
+**Cluster Overview** (Applicable on clusters only)
 
 * Physical Resources
  * Node
@@ -55,4 +55,4 @@ _Cluster Overview_ (Applicable on clusters only)
  * vStorage
  
 
- ![](Images/get-hypervreport-cluster-overview.png?raw=true)
+ ![](Images/get-hypervreport-cluster-overview.PNG?raw=true)
