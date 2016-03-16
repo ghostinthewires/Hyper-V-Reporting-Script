@@ -153,3 +153,27 @@ It can be difficult to monitor and assess resources in large Hyper-V environment
 ![](Images/get-hypervreport-vms.png?raw=true)
 
 
+## Requirements ##
+
+**Hyper-V Targets** (Clustered or Standalone)
+
+* Active Directory domain membership
+* Supported Operating Systems
+ * Windows Server 2012
+ * Windows Server 2012 R2
+ * Hyper-V Server 2012
+ * Hyper-V Server 2012 R2
+ 
+**Script Runtime Operating System** (Directly on a Hyper-V target or remote Windows operating system)
+
+* Same or trusted Active Directory domain membership with Hyper-V target
+* Supported Operating Systems
+ * Windows Server 2012
+ * Windows Server 2012 R2
+ * Windows 8
+ * Windows 8.1
+* Windows PowerShell 3.0 or 4.0 (installed by default on supported server operating systems)
+* Sets the Windows PowerShell execution policy to RemoteSigned or Unrestricted
+* Hyper-V PowerShell (if not, automatically installed by the Get-HyperVReport.ps1 for server oses)
+* Failover Clustering PowerShell (if not, automatically installed by the Get-HyperVReport.ps1 for server os')
+* The script requires administrative privileges on the target Hyper-V server(s)
