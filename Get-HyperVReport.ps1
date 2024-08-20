@@ -1,4 +1,4 @@
-﻿<#
+﻿ <#
 	.SYNOPSIS
     
 		Get-HyperVReport.ps1 (aka Hyper-V Reporting Script) can be used to report Hyper-V Cluster or Standalone environments.
@@ -814,7 +814,7 @@ $osVersion = sGet-Wmi -ComputerName $env:COMPUTERNAME -Namespace root\Cimv2 -Cla
 
     if ($osVersion)
     {
-        if (($OsVersion -like "6.2*") -or ($OsVersion -like "6.3*"))
+        if (($OsVersion -like "6.2*") -or ($OsVersion -like "6.3*") -or ($OsVersion -like "10.0*"))
         {
             if ($osName -like "Microsoft Windows 8*")
             {
@@ -914,7 +914,7 @@ $osVersion = sGet-Wmi -ComputerName $env:COMPUTERNAME -Namespace root\Cimv2 -Cla
         }
         else
         {
-            sPrint -Type 0 -Message "$($env:COMPUTERNAME.ToUpper()): Incompatible operating system version detected. Supported operating systems are Windows Server 2012 and Windows Server 2012 R2." -WriteToLogFile $True
+            sPrint -Type 0 -Message "$($env:COMPUTERNAME.ToUpper()): Incompatible operating system version $osVersion detected. Supported operating systems are Windows Server 2012 and Windows Server 2012 R2." -WriteToLogFile $True
             sPrint -Type 0 -Message "Script terminated!" -WriteToLogFile $True
             Break
         }    
@@ -1151,7 +1151,7 @@ if ($Cluster) {
             $osVersion = $null
             $getClusterOwnerNode = Get-ClusterNode -Cluster $ClusterName -Name $clusterOwnerHostName
             $osVersion = ($getClusterOwnerNode.MajorVersion).ToString() + "." + ($getClusterOwnerNode.MinorVersion).ToString()
-            if (($osVersion -like "6.2") -or ($osVersion -like "6.3"))
+            if (($osVersion -like "6.2") -or ($osVersion -like "6.3") -or ($osVersion -like "6.3"))
             {
                 if ((Get-WindowsFeature -ComputerName $clusterOwnerHostName -Name "Hyper-V").Installed)
                 {
@@ -1180,7 +1180,7 @@ if ($Cluster) {
             }
             else
             {
-                sPrint -Type 2 -Message "$($ClusterName.ToUpper()): Incompatible operating system version detected. Supported operating systems are Windows Server 2012 and Windows Server 2012 R2." -WriteToLogFile $True
+                sPrint -Type 2 -Message "$($ClusterName.ToUpper()): Incompatible operating system version $osVersion detected. Supported operating systems are Windows Server 2012 and Windows Server 2012 R2." -WriteToLogFile $True
                 sPrint -Type 0 -Message "Script terminated!" -WriteToLogFile $True
                 Break
             }
@@ -1239,7 +1239,7 @@ if ($VMHost) {
 
         if ($OsVersion)
         {
-            if (($OsVersion -like "6.2*") -or ($OsVersion -like "6.3*"))
+            if (($OsVersion -like "6.2*") -or ($OsVersion -like "6.3*") -or ($OsVersion -like "10.0*"))
             {
                 if ((Get-WindowsFeature -ComputerName $ComputerName -Name "Hyper-V").Installed)
                 {
@@ -2137,7 +2137,7 @@ ForEach ($VMHostItem in $VMHosts) {
             if ($vmDisks -eq $null)
             {
                  $vmDiskOutput = "
-                <td rowspan=""0""><p style=""text-align:left""><span style=""background-color:$($stateBgColors[4]);color:$($stateWordColors[4])"">&nbsp;Does not have a virtual disk&nbsp;</span></p></td>"
+                <td rowspan=""1""><p style=""text-align:left""><span style=""background-color:$($stateBgColors[4]);color:$($stateWordColors[4])"">&nbsp;Does not have a virtual disk&nbsp;</span></p></td>"
                 $highL = $true
             }
             else
@@ -2372,11 +2372,20 @@ ForEach ($VMHostItem in $VMHosts) {
                 $outVmMemMin = sConvert-Size -DiskVolumeSpace $VM.MemoryMinimum -DiskVolumeSpaceUnit byte
 
                 # Charge chargerVmMemoryTable
-                $chargerVmMemoryTable ="
-                <td rowspan=""$($rowSpanCount)"" style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Startup)"">$($outVmMemStartup[0])<br><span style=""font-size:10px"">$($outVmMemStartup[1])</span></abbr></p></td>
-                <td rowspan=""$($rowSpanCount)"" style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Minimum)"">$($outVmMemMin[0])<br><span style=""font-size:10px"">$($outVmMemMin[1])</span></abbr></p></td>
-                <td rowspan=""$($rowSpanCount)"" style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Maximum)"">$($outVmMemMax[0])<br><span style=""font-size:10px"">$($outVmMemMax[1])</span></abbr></p></td>
-                <td rowspan=""$($rowSpanCount)""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Assigned)"">$($outVmMemAssigned[0])<br><span style=""font-size:10px"">$($outVmMemAssigned[1])</span></abbr></p></td>"
+				if ($($rowSpanCount) -ne 0) {
+					$chargerVmMemoryTable ="
+					<td rowspan=""$($rowSpanCount)"" style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Startup)"">$($outVmMemStartup[0])<br><span style=""font-size:10px"">$($outVmMemStartup[1])</span></abbr></p></td>
+					<td rowspan=""$($rowSpanCount)"" style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Minimum)"">$($outVmMemMin[0])<br><span style=""font-size:10px"">$($outVmMemMin[1])</span></abbr></p></td>
+					<td rowspan=""$($rowSpanCount)"" style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Maximum)"">$($outVmMemMax[0])<br><span style=""font-size:10px"">$($outVmMemMax[1])</span></abbr></p></td>
+					<td rowspan=""$($rowSpanCount)""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Assigned)"">$($outVmMemAssigned[0])<br><span style=""font-size:10px"">$($outVmMemAssigned[1])</span></abbr></p></td>"
+				}
+				else {
+					$chargerVmMemoryTable ="
+					<td style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Startup)"">$($outVmMemStartup[0])<br><span style=""font-size:10px"">$($outVmMemStartup[1])</span></abbr></p></td>
+					<td style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Minimum)"">$($outVmMemMin[0])<br><span style=""font-size:10px"">$($outVmMemMin[1])</span></abbr></p></td>
+					<td style=""border-right: 2px dotted #ccc""><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Maximum)"">$($outVmMemMax[0])<br><span style=""font-size:10px"">$($outVmMemMax[1])</span></abbr></p></td>
+					<td><p style=""line-height:1.1""><abbr title=""Dynamic Memory (Assigned)"">$($outVmMemAssigned[0])<br><span style=""font-size:10px"">$($outVmMemAssigned[1])</span></abbr></p></td>"
+				}
             }
             else
             {
@@ -2384,26 +2393,51 @@ ForEach ($VMHostItem in $VMHosts) {
                 $outVmMemStartup = sConvert-Size -DiskVolumeSpace $VM.MemoryStartup -DiskVolumeSpaceUnit byte
 
                 # Charge chargerVmMemoryTable
-                $chargerVmMemoryTable ="
-                <td rowspan=""$($rowSpanCount)"" colspan=""4""><p style=""line-height:1.1""><abbr title=""Static Memory (Startup)"">$($outVmMemStartup[0])<br><span style=""font-size:10px"">$($outVmMemStartup[1])</span></abbr></p></td>"
+				if ($($rowSpanCount) -ne 0) {
+					$chargerVmMemoryTable ="
+					<td rowspan=""$($rowSpanCount)"" colspan=""4""><p style=""line-height:1.1""><abbr title=""Static Memory (Startup)"">$($outVmMemStartup[0])<br><span style=""font-size:10px"">$($outVmMemStartup[1])</span></abbr></p></td>"
+				}
+				else {
+					$chargerVmMemoryTable ="
+					<td colspan=""4""><p style=""line-height:1.1""><abbr title=""Static Memory (Startup)"">$($outVmMemStartup[0])<br><span style=""font-size:10px"">$($outVmMemStartup[1])</span></abbr></p></td>"
+				}
             }
 
             # Data Line
-            $chargerVmTable +="
-            <tr style=""background:$($vmTableTrBgColor)""><!--Data Line-->
-                <td rowspan=""$($rowSpanCount)""><p style=""text-align:left""><abbr title=""$($outVmPath)"">$($outVmName) <span style=""font-size:10px;color:orange"">*</span></abbr> $($outVmGenVer) <br>IsClustered:$($outVmIsClustered)</span></p></td>
-                <td rowspan=""$($rowSpanCount)"" bgcolor=""$vmStateBgColor""><p style=""color:$($vmStateWordColor)"">$($outVmState)</p></td>
-                <td rowspan=""$($rowSpanCount)""><p>$($outVmUptimeDays)$($outVmUptime)</p></td>
-                <td rowspan=""$($rowSpanCount)""><p>$($outVmHost)</p></td>
-                <td rowspan=""$($rowSpanCount)""><p style=""line-height:1.1"">$($outVmCPU)<br><span style=""font-size:10px"">CPU</span></p></td>"
-            $chargerVmTable += $chargerVmMemoryTable
-            
-            $chargerVmTable +="
-                <td rowspan=""$($rowSpanCount)""><p style=""background-color:$($vmIsStateBgColor);color:$($vmIsStateWordColor)""><abbr title=""IS Version: $($outVmIsVer)"">$($outVmIs) <span style=""font-size:10px;color:orange"">*</span></abbr></p></td>
-                <td rowspan=""$($rowSpanCount)""><p style=""background-color:$($vmCheckpointBgColor);color:$($vmCheckpointWordColor)""><abbr title=""$($outVmChekpointCount)"">$($outVmChekpoint)</abbr></p></td>
-                <td rowspan=""$($rowSpanCount)"">$($outVmRepl)</td>
-                <td rowspan=""$($rowSpanCount)"">$($outVmNetAdapter)</td>"
-		        $chargerVmTable += $vmDiskOutput
+			if ($($rowSpanCount) -ne 0) {
+				$chargerVmTable +="
+				<tr style=""background:$($vmTableTrBgColor)""><!--Data Line-->
+					<td rowspan=""$($rowSpanCount)""><p style=""text-align:left""><abbr title=""$($outVmPath)"">$($outVmName) <span style=""font-size:10px;color:orange"">*</span></abbr> $($outVmGenVer) <br>IsClustered:$($outVmIsClustered)</span></p></td>
+					<td rowspan=""$($rowSpanCount)"" bgcolor=""$vmStateBgColor""><p style=""color:$($vmStateWordColor)"">$($outVmState)</p></td>
+					<td rowspan=""$($rowSpanCount)""><p>$($outVmUptimeDays)$($outVmUptime)</p></td>
+					<td rowspan=""$($rowSpanCount)""><p>$($outVmHost)</p></td>
+					<td rowspan=""$($rowSpanCount)""><p style=""line-height:1.1"">$($outVmCPU)<br><span style=""font-size:10px"">CPU</span></p></td>"
+				$chargerVmTable += $chargerVmMemoryTable
+				
+				$chargerVmTable +="
+					<td rowspan=""$($rowSpanCount)""><p style=""background-color:$($vmIsStateBgColor);color:$($vmIsStateWordColor)""><abbr title=""IS Version: $($outVmIsVer)"">$($outVmIs) <span style=""font-size:10px;color:orange"">*</span></abbr></p></td>
+					<td rowspan=""$($rowSpanCount)""><p style=""background-color:$($vmCheckpointBgColor);color:$($vmCheckpointWordColor)""><abbr title=""$($outVmChekpointCount)"">$($outVmChekpoint)</abbr></p></td>
+					<td rowspan=""$($rowSpanCount)"">$($outVmRepl)</td>
+					<td rowspan=""$($rowSpanCount)"">$($outVmNetAdapter)</td>"
+					$chargerVmTable += $vmDiskOutput
+			}
+			else {
+				$chargerVmTable +="
+				<tr style=""background:$($vmTableTrBgColor)""><!--Data Line-->
+					<td><p style=""text-align:left""><abbr title=""$($outVmPath)"">$($outVmName) <span style=""font-size:10px;color:orange"">*</span></abbr> $($outVmGenVer) <br>IsClustered:$($outVmIsClustered)</span></p></td>
+					<td bgcolor=""$vmStateBgColor""><p style=""color:$($vmStateWordColor)"">$($outVmState)</p></td>
+					<td><p>$($outVmUptimeDays)$($outVmUptime)</p></td>
+					<td><p>$($outVmHost)</p></td>
+					<td><p style=""line-height:1.1"">$($outVmCPU)<br><span style=""font-size:10px"">CPU</span></p></td>"
+				$chargerVmTable += $chargerVmMemoryTable
+				
+				$chargerVmTable +="
+					<td><p style=""background-color:$($vmIsStateBgColor);color:$($vmIsStateWordColor)""><abbr title=""IS Version: $($outVmIsVer)"">$($outVmIs) <span style=""font-size:10px;color:orange"">*</span></abbr></p></td>
+					<td><p style=""background-color:$($vmCheckpointBgColor);color:$($vmCheckpointWordColor)""><abbr title=""$($outVmChekpointCount)"">$($outVmChekpoint)</abbr></p></td>
+					<td>$($outVmRepl)</td>
+					<td>$($outVmNetAdapter)</td>"
+					$chargerVmTable += $vmDiskOutput				
+			}
 
             # Output Data
             if ($HighlightsOnly -eq $false)
@@ -3464,4 +3498,5 @@ if ($SendMail -or $SMTPServer)
 sPrint -Type 1 "Completed!" -WriteToLogFile $True
 sPrint -Type 5 -Message "----- End   -----" -WriteToLogFile $true
 
-#endregion
+#endregion 
+
